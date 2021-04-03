@@ -35,7 +35,7 @@ Perfil
             <p class="p-show"><b>Email:</b> {{ $user->email }}</p>
             <p class="p-show"><b>Nível:</b> {{ $user->roleName($user) }}</p>
             <p class="p-show mb-4"><b>Data de criação:</b> {{ dateToPTBR($user->created_at) }}</p>
-            @if( Auth::user()->id==$user->id )
+            @if( Auth::user()->id==$user->id || $user->minRoleID($user) > Auth::user()->minRoleID(Auth::user()))
                 <div class="row offset-md-3">
                     <a href="{{ route('user.edit', $user->id) }}" class="btn btn-main-color show-shadow" style="width:100px">
                         <i class="fas fa-edit mr-1 ml-2"></i>

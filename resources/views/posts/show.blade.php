@@ -38,11 +38,12 @@ Posts
 
     <div class="row">
 
-      <div class="col-12 col-md-10 p-3 text-center">
+      <div class="col-12 {{($post->id_user==Auth::user()->id)? 'col-md-10':'col-md-12'}} p-3 text-center">
         <b>Categoria: </b><a href="{{ route('post.categoria', $post->tipoPost->nome) }}">{{$post->tipoPost->nome}}</a>
         <p style="font-size:20px;">{{$post->post}}</p>
       </div>
 
+      @if($post->id_user==Auth::user()->id)
       <div class="col-12 col-md-2">
         <div class="row">
           <a class="btn btn-main-color show-shadow" href={{route('post.edit', $post->id)}}><i class="fas fa-edit mr-1 ml-2"></i></a>
@@ -54,6 +55,8 @@ Posts
           </form>
         </div>
       </div>
+      @endif
+      
     </div>
 
     <br/>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Post;
@@ -40,7 +41,9 @@ class PostController extends Controller
     {
         $user_posts = User::find($id);
         $posts = $this->post->where('id_user', $id)->paginate(5);
-        // return $posts;
+        if($posts->total() == 0){
+            return view('posts.index', compact('posts'))->with('warning','Esse usuário ainda não possui nenhum post');
+        }
        
         return view('posts.index', compact('posts'));
     }
@@ -56,11 +59,10 @@ class PostController extends Controller
         return view('posts.create', compact('user', 'tipo_post'));
     }
 
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
         try {
             $post = new Post;
-            return json_encode($request);
             DB::beginTransaction();
            
             $post->titulo = $request->titulo;
@@ -123,11 +125,11 @@ class PostController extends Controller
         
     }
 
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
         try {
             $post = Post::find($id);
-            
+
             if(!Auth::user()){
                 return redirect()->route('login')->with('warning',"É obrigatório fazer login.");
             }
@@ -153,16 +155,21 @@ class PostController extends Controller
                     return redirect()->back()
                         ->with('error', 'Falha ao fazer upload')->withInput();
                 }else{
-                    //apagar se existir anterior
+                    if(isset($post->id_foto)){
+                        $fotoExistente = Foto::find($post->id_foto);
+                        unlink('../public/storage/categories/'.$fotoExistente->foto);//apaga foto da maquina
+                        $fotoExistente->delete();//apaga foto do banco 
+                        $post->id_foto = null;//seta post com nenhuma foto
+                    }
+
                     $foto = new Foto;
-                    if(isset($post->id_foto)) $post->id_foto = null;
                     $foto->foto = $nameFile;
-                    $foto->save();
-                    if(isset($foto)) $post->id_foto = $foto->id;
+                    $foto->save(); //cria nova foto no banco
+                    if(isset($foto->foto)) $post->id_foto = $foto->id; //insere nova foto no post
                 }
             }
             
-            if($request->image == null) $post->id_foto = null;
+            if($request->image == null) $post->id_foto = null; //se nenhuma imagem, 
             $post->update();
 
             DB::commit();

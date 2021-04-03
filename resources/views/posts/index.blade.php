@@ -54,7 +54,6 @@ Posts
                 </div>
                 <hr/>
 
-                {{-- <img src="" class="gato-post"/> --}}
                 <p>{{$post->post}}</p>
                 <a href="{{route('post.show', $post->id)}}" >Ver Detalhes</a>
             </div>

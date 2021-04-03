@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use App\User;
@@ -35,7 +36,7 @@ class UserController extends Controller
 
                 return view('users.index', compact('users'));
             }else{
-                return redirect()->route('os.index');
+                return redirect()->route('post.index');
             }
         }else{
             return redirect()->route('login')->with('warning',"Faça login primeiro");
@@ -63,7 +64,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $user = new User;
         DB::beginTransaction();
@@ -82,7 +83,7 @@ class UserController extends Controller
             }
             
             DB::commit();
-            return redirect()->route('os.index')->with('status', "Usuário $user->name cadastrado com sucesso" );
+            return redirect()->route('post.index')->with('status', "Usuário $user->name cadastrado com sucesso" );
         }  catch (ModelNotFoundException $exception) {
             DB::rollBack();
             return back()->withError($exception->getMessage())->withInput();
@@ -132,7 +133,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
         $user = User::find($id);
         DB::beginTransaction();

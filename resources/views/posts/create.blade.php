@@ -21,16 +21,16 @@ Posts
          @method('PUT') 
         @endif
         
+        <div class="form-group mt-1 mb-2">
+            <label for="titulo">Título</label>
+            <input type="text" class="form-control input-shadow" maxlength="100" placeholder="Título" value="{{ (isset($post)) ? $post->titulo : '' }}" id="titulo" name="titulo">
+        </div>
+        
         <div class="row">
-            <div class="form-group mt-1 mb-2 col-12 col-md-8">
-                <label for="titulo">Título</label>
-                <input type="text" class="form-control input-shadow" maxlength="100" placeholder="Título" value="{{ (isset($post)) ? $post->titulo : '' }}" id="titulo" name="titulo">
-            </div>
-
-            <div class="form-group mt-1 mb-2 col-md-4 col-12">
+            <div class="form-group mt-1 mb-2 col-12 col-md-6">
                 <label for="tipo_post">Tipo Post</label>
                 <select class="form-select form-control input-shadow" id="tipo_post" name="tipo_post_id" >
-                    <option value="[]">Escolha o tipo</option>
+                    <option value="">Escolha o tipo</option>
                     @if(isset($tipo_post))
                         @foreach($tipo_post as $tipo)
                             <option value="{{$tipo->id}}" {{(isset($post) && $tipo->id==$post->tipo_post_id)? 'selected':''}}>{{$tipo->nome}}</option>
@@ -38,43 +38,44 @@ Posts
                     @endif
               </select>
             </div>
-        </div>
+       
 
-        <div class="form-group mt-1 mb-2 div-imagem">
-            <label for="imagem">Imagem</label>
-            
-            @if(isset($post->fotos))
-                <div class="input-group">
-                    <input type="text" class="form-control p-1 input-shadow" id="read-imagem" name="image" value="{{isset($post->fotos) ? $post->fotos->foto : ''}}" readonly>
-                    <div class="input-group-append input-shadow">
-                        <div class="input-group-text p-0" style="background-color: #fff;">
-                            <button type="button" class="btn btn-default input-img-edit float-right pt-1">
-                                <i class="fas fa-edit p-0"></i>
-                            </button>
-                        </div>
-                        <div class="input-group-text p-0" style="background-color: #fff;">
-                            <button type="button" class="btn btn-default input-img-del float-right pt-1">
-                                <i class="far fa-trash-alt p-0"></i>
-                            </button>
+            <div class="form-group mt-1 mb-2 col-md-6 div-imagem">
+                <label for="imagem">Imagem</label>
+                
+                @if(isset($post->fotos))
+                    <div class="input-group">
+                        <input type="text" class="form-control p-1 input-shadow" id="read-imagem" name="image" value="{{isset($post->fotos) ? $post->fotos->foto : ''}}" readonly>
+                        <div class="input-group-append input-shadow">
+                            <div class="input-group-text p-0" style="background-color: #fff;">
+                                <button type="button" class="btn btn-default input-img-edit float-right pt-1">
+                                    <i class="fas fa-edit p-0"></i>
+                                </button>
+                            </div>
+                            <div class="input-group-text p-0" style="background-color: #fff;">
+                                <button type="button" class="btn btn-default input-img-del float-right pt-1">
+                                    <i class="far fa-trash-alt p-0"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            
-            @else
-                <div class="input-group">
-                    <input type="file" class="form-control p-1 input-shadow" id="imagem" name="image" >
-                     <a class="btn btn-white border" href="#modal_image" data-toggle="modal">Adicionar imagem</a>
-                    <div class="input-group-append  input-shadow">
-                        <div class="input-group-text p-0" style="background-color: #fff;">
-                            <button type="button" class="btn btn-default input-img-del float-right pt-1">
-                                <i class="far fa-trash-alt p-0"></i>
-                            </button>
+                
+                @else
+                    <div class="input-group">
+                        <input type="file" class="form-control p-1 input-shadow" id="imagem" name="image" >
+                        {{-- <a class="btn btn-white border input-shadow" style="width:82%" href="#modal_image" data-toggle="modal">Adicionar imagem</a> --}}
+                        <div class="input-group-append  input-shadow">
+                            <div class="input-group-text p-0" style="background-color: #fff;">
+                                <button type="button" class="btn btn-default input-img-del float-right pt-1">
+                                    <i class="far fa-trash-alt p-0"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </div> 
-               
-            @endif
+                    </div> 
+                
+                @endif
 
+            </div>
         </div>
 
         <div class="form-group mt-1 mb-2">
@@ -84,7 +85,7 @@ Posts
 
         <div class="form-group mt-1 mb-2">
             <label for="post">Post</label>
-            <textarea class="form-control input-shadow" id="post"  name = "post" style="height: 100px">{{ isset($post) ? $post->post : '' }}</textarea>
+            <textarea class="form-control input-shadow" id="post"  name="post" style="height: 100px">{{ isset($post) ? $post->post : '' }}</textarea>
         </div>
         
         <div class="text-center mb-1">
