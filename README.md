@@ -11,11 +11,12 @@
 
 Projeto simples em Laravel 7 de base para cadastros de Posts.
 
-### `Funções dentro do sitema:`
-Auth: Cadastro de usuário, Login, Edição de usuário.
+### `Funções dentro do sistema:`
+<br/>
+<strong>Auth:</strong> Cadastro de usuário, Login, Edição de usuário.
 
 <br/>
-Principais: Cadastro de Post(com imagem opcional), Edição e Delete de Post (se autor do post), Cadastro de Comentários, Edição e Delete de Comentários (se autor do comentários).
+<strong>Principais:</strong> Cadastro de Post(com imagem opcional), Edição e Delete de Post (se autor do post), Cadastro de Comentários, Edição e Delete de Comentários (se autor do comentários).
 
 <br/>
 Listagem de Posts, Listagem de Posts por categorias, Listagem de usuários (se administrador), Cadastro de usuários.
